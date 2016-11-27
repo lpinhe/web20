@@ -1,0 +1,111 @@
+{% extends "scrumdea/base.html" %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</div>
+        {% endfor %}
+    {% endif %}
+    <h2>Sprint detail view</h2>
+
+        <h3><strong>Title: </strong>{{ object.name }}</h3>
+
+        <a href="{% url 'sprint_edit_view' pk=object.project.id spk=object.id %}"> <button type="button" class="btn btn-primary">Edit sprint</button></a>
+        <a href="{% url 'sprint_delete_view' pk=object.project.id spk=object.id %} "> <button type="button" class="btn btn-danger">Delete</button></a>
+        <a href="{% url 'task_create_view' pk=object.project.id spk=object.id %} "> <button type="button" class="btn btn-warning">New task</button></a>
+
+        <br/>
+
+        <h3>Progress</h3>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ sprint_complete_in_percent }}" style="width: {{ sprint_complete_in_percent }}%">
+                {{ sprint_complete_in_percent }}%
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <h2>todo</h2>
+                <p> </p>
+                {% for task in tasks_todo %}
+                <div class="thumbnail">
+                    <div class="caption">
+                    <h4>{{ task.name }}</h4>
+                    <p><strong>Description:</strong><br>
+                    {{ task.description }}</p>
+
+                    <a href="{% url 'task_edit_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-primary">edit</button></a>
+                    <a href="{% url 'task_delete_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-danger">delete</button></a>
+
+                    <p> <br><a href="{% url 'task_move_right_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-success"> move to next phase >>></button></a></p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if not tasks_todo %}
+                    <p>no tasks in this phase</p>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <h2>in progress</h2>
+                <p> </p>
+                {% for task in tasks_in_progress %}
+                <div class="thumbnail">
+                    <div class="caption">
+                    <h4>{{ task.name }}</h4>
+                    <p><strong>Description:</strong><br>
+                    {{ task.description }}</p>
+
+                    <a href="{% url 'task_edit_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-primary">edit</button></a>
+                    <a href="{% url 'task_delete_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-danger">delete</button></a>
+
+                    <p> <br><a href="{% url 'task_move_right_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-success"> move to next phase >>></button></a></p>
+                    </div>
+                 </div>
+                {% endfor %}
+                {% if not tasks_in_progress %}
+                    <p>no tasks in this phase</p>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <h2>in review</h2>
+                <p> </p>
+                {% for task in tasks_in_review %}
+                <div class="thumbnail">
+                    <div class="caption">
+                    <h4>{{ task.name }}</h4>
+                    <p><strong>Description:</strong><br>
+                    {{ task.description }}</p>
+
+                    <a href="{% url 'task_edit_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-primary">edit</button></a>
+                    <a href="{% url 'task_delete_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-danger">delete</button></a>
+
+                    <p> <br><a href="{% url 'task_move_right_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-success"> move to next phase >>></button></a></p>
+                    </div>
+                 </div>
+                {% endfor %}
+                {% if not tasks_in_review %}
+                    <p>no tasks in this phase</p>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <h2>finished</h2>
+                <p> </p>
+                {% for task in tasks_finished %}
+                <div class="thumbnail">
+                    <div class="caption">
+                    <h4>{{ task.name }}</h4>
+                    <p><strong>Description:</strong><br>
+                    {{ task.description }}</p>
+
+                    <a href="{% url 'task_edit_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-primary">edit</button></a>
+                    <a href="{% url 'task_delete_view' pk=project.id spk=sprint.id tpk=task.id %}"> <button type="button" class="btn btn-danger">delete</button></a>
+                    </div>
+                 </div>
+                {% endfor %}
+                {% if not tasks_finished %}
+                    <p>no tasks in this phase</p>
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

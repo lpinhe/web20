@@ -1,0 +1,15 @@
+{% extends "scrumdea/base.html" %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</div>
+        {% endfor %}
+    {% endif %}
+    <h2>Create new sprint</h2>
+    <form action="" method="post" class="form-horizontal">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

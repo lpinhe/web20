@@ -1,0 +1,29 @@
+{% extends "scrumdea/base.html" %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</div>
+        {% endfor %}
+    {% endif %}
+    <h2>Project detail view</h2>
+
+        <h3><strong>Title: </strong>{{ object.name }}</h3>
+        <strong>ID:</strong> {{ object.id }}<br/>
+        <strong>Description: </strong>{{ object.description }}<br/>
+
+        <a href="{% url "project_edit_view" pk=object.id %}"> <button type="button" class="btn btn-primary">Edit Idea</button></a>
+        <a href="{% url "project_delete_view" pk=object.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+        <a href="{% url "sprint_create_view" pk=object.id %}"> <button type="button" class="btn btn-success">New sprint</button></a>
+        <p> <br><a href="{% url "sprint_list_view" pk=object.id %}"> <button type="button" class="btn btn-warning">view sprints</button></a></p>
+
+    <h3>Sprints</h3>
+    <p>&nbsp;</p>
+    {% if sprints %}
+        {% for sprint in sprints %}
+            <h4>{{ sprint.name }}</h4>
+            <p>ID: {{ sprint.id }}</p>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
